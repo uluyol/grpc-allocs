@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+package pb2gogo;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.goproto_getters_all) = false;
+
+option go_package = "pb2gogo";
+
+message F1 {
+	optional int64 seq = 1 [(gogoproto.nullable) = false];
+	optional bytes data = 2;
+}
+
+message F2 {
+	repeated string all_vals = 1;
+}
+
+message Resp {
+	optional bool succ = 1 [(gogoproto.nullable) = false];
+	optional F1 f1 = 2 [(gogoproto.nullable) = false];
+	optional F2 f2 = 3 [(gogoproto.nullable) = false];
+}
+
+message Req {
+	optional string key = 1 [(gogoproto.nullable) = false];
+}
+
+
+service Svc {
+	rpc Get (Req) returns (Resp) {}
+}
